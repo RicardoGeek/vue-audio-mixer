@@ -7,6 +7,7 @@
     <div v-show="!loading">
 
       <div class="vue-audio-mixer-channel-strip" >
+          <Countdown />
 
           <MixerChannel 
             v-for="(track,index) in tracks" 
@@ -60,6 +61,7 @@ import ProgressBar from './ProgressBar.vue';
 import TransportButtons from './TransportButtons.vue';
 import Loader from './Loader.vue';
 import EventBus from './../event-bus';
+import Countdown from './Countdown.vue'
 
 export default {
   name: 'app',
@@ -72,7 +74,8 @@ export default {
     Loader,
     TimeDisplay,
     TransportButtons,
-    ProgressBar
+    ProgressBar,
+    Countdown
   },
   data : function(){       
       return {
@@ -96,7 +99,8 @@ export default {
         overRideProgressBarPosition: false,
         progressBarPosition        : 0,
         tracks                     : [],
-        tracksLoaded               : 0
+        tracksLoaded               : 0,
+        hooks                      : {}
       };
   },
   created(){
@@ -211,6 +215,7 @@ export default {
         this.masterPanValue  = json.master.pan;
         this.masterGainValue = json.master.gain;
         this.masterMuted     = json.master.muted;
+        this.hooks = json.hooks
       }
 
 
@@ -227,20 +232,37 @@ export default {
     },
 
 
+    async delay(milisecods) {
+      return new Promise(resolve => setTimeout(resolve, milisecods))
+    },
 
 
-
-    togglePlay()
+    async togglePlay()
     {
-      if(this.playing){
+      if (this.playing){
         this.pausedAt = this.progress;
         EventBus.$emit('stop');
-      }else{
+      } else {
+        if ( this.hooks && this.hooks.beforePlay ) {
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownSeconds = document.getElementById('countdown-seconds');
 
+            countdownOverlay.style.display = 'block'
+            const seconds = this.hooks.beforePlay.contdown
 
+            for(let i = 1; i<= seconds; i++) {
+              countdownSeconds.innerText = ((seconds + 1) - i);
+              await this.delay(1000);
+            }
+            countdownOverlay.style.display = 'none'
 
-        this.startedAt = Date.now() - this.progress;
-        EventBus.$emit('play',this.pausedAt);
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play',this.pausedAt);
+        } else {
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play',this.pausedAt);
+        }
+        
       }
       
     },

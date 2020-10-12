@@ -197,20 +197,12 @@ export default {
 
 
     setupAudioNodes() {
- 
-
-
         // create a buffer source node
         this.sourceNode = this.context.createBufferSource();
         this.sourceNode.buffer = this.buffer;
 
-       
-
-
        // this.sourceNode.loop = false; // false to stop looping
       //  this.sourceNode.muted = false; 
-
-
 
         // setup a analyzers
         this.leftAnalyser = this.context.createAnalyser();
@@ -220,8 +212,6 @@ export default {
         this.rightAnalyser = this.context.createAnalyser();
         this.rightAnalyser.smoothingTimeConstant = 0.0;
         this.rightAnalyser.fftSize = 1024;
-
-
 
         // Create a gain node.
         this.gainNode = this.context.createGain();
@@ -235,8 +225,6 @@ export default {
         // create splitter
         this.splitter = this.context.createChannelSplitter(2);
 
-
-
         // connect everything together
         this.pannerNode.connect(this.splitter);
         this.gainNode.connect(this.pannerNode);
@@ -246,16 +234,10 @@ export default {
         this.splitter.connect(this.rightAnalyser,1,0);
         this.pannerNode.connect(this.output);
 
-
-        //this.leftAnalyser.connect(this.scriptProcessorNode);
-
-
         // initial values
         this.muteChange(this.muted);
         this.changeGain(this.gain);
         this.changePan(this.pan);
-
-
 
         this.sourceNode.onended = () => {
           this.onended();
@@ -268,7 +250,6 @@ export default {
 
     onended()
     {
-
         // disconnect everything
         this.scriptProcessorNode.disconnect();
         this.sourceNode.disconnect();

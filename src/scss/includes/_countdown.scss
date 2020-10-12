@@ -1,0 +1,17 @@
+.vue-audio-mixer-countdown {
+    background-color: black;
+    opacity: 0.6;
+    position: absolute;
+    width: inherit;
+    height: 100%;
+    z-index: 99;
+    display: none;
+}
+
+#countdown-seconds {
+    color: white;
+    font-size: 160px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}

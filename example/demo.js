@@ -10176,7 +10176,7 @@
 
   /******/ })["default"];
   });
-
+  //# sourceMappingURL=vue-knob-control.umd.js.map
   });
 
   var VueKnobControl = unwrapExports(vueKnobControl_umd);
@@ -10416,6 +10416,7 @@
       }
       return script;
   }
+  //# sourceMappingURL=normalize-component.mjs.map
 
   /* script */
   const __vue_script__ = script;
@@ -10759,8 +10760,7 @@
         this.sourceNode.connect(this.gainNode);
         this.splitter.connect(this.leftAnalyser, 0, 0);
         this.splitter.connect(this.rightAnalyser, 1, 0);
-        this.pannerNode.connect(this.output); //this.leftAnalyser.connect(this.scriptProcessorNode);
-        // initial values
+        this.pannerNode.connect(this.output); // initial values
 
         this.muteChange(this.muted);
         this.changeGain(this.gain);
@@ -11268,7 +11268,76 @@
     );
 
   //
+  //
+  //
+  //
+  //
+  //
   var script$6 = {
+    name: 'countdown',
+    data: function () {
+      return {};
+    }
+  };
+
+  /* script */
+  const __vue_script__$6 = script$6;
+
+  /* template */
+  var __vue_render__$6 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _vm._m(0)
+  };
+  var __vue_staticRenderFns__$6 = [
+    function() {
+      var _vm = this;
+      var _h = _vm.$createElement;
+      var _c = _vm._self._c || _h;
+      return _c(
+        "div",
+        {
+          staticClass: "vue-audio-mixer-countdown",
+          attrs: { id: "countdown-overlay" }
+        },
+        [_c("span", { attrs: { id: "countdown-seconds" } })]
+      )
+    }
+  ];
+  __vue_render__$6._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$6 = undefined;
+    /* scoped */
+    const __vue_scope_id__$6 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$6 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$6 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$6 = /*#__PURE__*/normalizeComponent(
+      { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+      __vue_inject_styles__$6,
+      __vue_script__$6,
+      __vue_scope_id__$6,
+      __vue_is_functional_template__$6,
+      __vue_module_identifier__$6,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$7 = {
     name: 'app',
     props: ['config'],
     components: {
@@ -11277,7 +11346,8 @@
       Loader: __vue_component__$5,
       TimeDisplay: __vue_component__$2,
       TransportButtons: __vue_component__$4,
-      ProgressBar: __vue_component__$3
+      ProgressBar: __vue_component__$3,
+      Countdown: __vue_component__$6
     },
     data: function () {
       return {
@@ -11301,7 +11371,8 @@
         overRideProgressBarPosition: false,
         progressBarPosition: 0,
         tracks: [],
-        tracksLoaded: 0
+        tracksLoaded: 0,
+        hooks: {}
       };
     },
 
@@ -11396,6 +11467,7 @@
           this.masterPanValue = json.master.pan;
           this.masterGainValue = json.master.gain;
           this.masterMuted = json.master.muted;
+          this.hooks = json.hooks;
         }
       },
 
@@ -11408,13 +11480,33 @@
         this.playing = false;
       },
 
-      togglePlay() {
+      async delay(milisecods) {
+        return new Promise(resolve => setTimeout(resolve, milisecods));
+      },
+
+      async togglePlay() {
         if (this.playing) {
           this.pausedAt = this.progress;
           EventBus.$emit('stop');
         } else {
-          this.startedAt = Date.now() - this.progress;
-          EventBus.$emit('play', this.pausedAt);
+          if (this.hooks && this.hooks.beforePlay) {
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownSeconds = document.getElementById('countdown-seconds');
+            countdownOverlay.style.display = 'block';
+            const seconds = this.hooks.beforePlay.contdown;
+
+            for (let i = 1; i <= seconds; i++) {
+              countdownSeconds.innerText = seconds + 1 - i;
+              await this.delay(1000);
+            }
+
+            countdownOverlay.style.display = 'none';
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play', this.pausedAt);
+          } else {
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play', this.pausedAt);
+          }
         }
       },
 
@@ -11517,10 +11609,10 @@
   };
 
   /* script */
-  const __vue_script__$6 = script$6;
+  const __vue_script__$7 = script$7;
 
   /* template */
-  var __vue_render__$6 = function() {
+  var __vue_render__$7 = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -11549,6 +11641,8 @@
               "div",
               { staticClass: "vue-audio-mixer-channel-strip" },
               [
+                _c("Countdown"),
+                _vm._v(" "),
                 _vm._l(_vm.tracks, function(track, index) {
                   return _c("MixerChannel", {
                     key: index,
@@ -11610,17 +11704,17 @@
       1
     )
   };
-  var __vue_staticRenderFns__$6 = [];
-  __vue_render__$6._withStripped = true;
+  var __vue_staticRenderFns__$7 = [];
+  __vue_render__$7._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$6 = undefined;
+    const __vue_inject_styles__$7 = undefined;
     /* scoped */
-    const __vue_scope_id__$6 = undefined;
+    const __vue_scope_id__$7 = undefined;
     /* module identifier */
-    const __vue_module_identifier__$6 = undefined;
+    const __vue_module_identifier__$7 = undefined;
     /* functional template */
-    const __vue_is_functional_template__$6 = false;
+    const __vue_is_functional_template__$7 = false;
     /* style inject */
     
     /* style inject SSR */
@@ -11629,13 +11723,13 @@
     
 
     
-    const __vue_component__$6 = /*#__PURE__*/normalizeComponent(
-      { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
-      __vue_inject_styles__$6,
-      __vue_script__$6,
-      __vue_scope_id__$6,
-      __vue_is_functional_template__$6,
-      __vue_module_identifier__$6,
+    const __vue_component__$7 = /*#__PURE__*/normalizeComponent(
+      { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
+      __vue_inject_styles__$7,
+      __vue_script__$7,
+      __vue_scope_id__$7,
+      __vue_is_functional_template__$7,
+      __vue_module_identifier__$7,
       false,
       undefined,
       undefined,
@@ -11669,14 +11763,14 @@
     }
   }
 
-  var css_248z = "@import url(\"https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap\");\n@import url(\"https://fonts.googleapis.com/css2?family=Open+Sans&display=swap\");\n:export {\n  colourschemeone: #4ba7b7; }\n\n.vue-audio-mixer-channel-label {\n  margin-top: 10px;\n  width: 85px;\n  font-size: 10px;\n  padding-top: 5px;\n  padding-bottom: 5px;\n  height: 1em;\n  overflow: auto;\n  clear: both;\n  float: left;\n  background: #4ba7b7;\n  color: #FFFFFF;\n  text-align: center;\n  border: none;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-strip {\n  background: transparent !important;\n  background: #16191c;\n  position: relative;\n  overflow: auto;\n  display: block;\n  float: left;\n  opacity: 1;\n  width: 100%; }\n\n.vue-audio-mixer-channel {\n  height: 435px;\n  margin: 5px;\n  padding: 5px;\n  padding-top: 50px;\n  box-sizing: content-box;\n  position: relative;\n  float: left;\n  display: block;\n  background: rgba(41, 44, 48, 0.2); }\n  .vue-audio-mixer-channel:last-child {\n    background: #4ba7b7 !important; }\n    .vue-audio-mixer-channel:last-child .vue-audio-mixer-channel-label {\n      background: #000 !important; }\n\n.vue-audio-mixer-channel-slider {\n  top: 230px;\n  left: -135px;\n  display: block;\n  float: left;\n  -ms-transform: rotate(270deg);\n  /* IE 9 */\n  -webkit-transform: rotate(270deg);\n  /* Chrome, Safari, Opera */\n  transform: rotate(270deg);\n  position: absolute; }\n\n.vue-audio-mixer-channel-meter-canvas {\n  margin-right: 50px;\n  margin-left: 10px;\n  display: block;\n  float: left; }\n\n@keyframes rotate {\n  0% {\n    -webkit-transform: rotate(0deg) scale(1);\n    transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(180deg) scale(0.6);\n    transform: rotate(180deg) scale(0.6); }\n  100% {\n    -webkit-transform: rotate(360deg) scale(1);\n    transform: rotate(360deg) scale(1); } }\n\n@-webkit-keyframes ball-scale-ripple {\n  0% {\n    -webkit-transform: scale(0.1);\n    transform: scale(0.1);\n    opacity: 1; }\n  70% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    opacity: 0.7; }\n  100% {\n    opacity: 0.0; } }\n\n@keyframes ball-scale-ripple {\n  0% {\n    -webkit-transform: scale(0.1);\n    transform: scale(0.1);\n    opacity: 1; }\n  70% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    opacity: 0.7; }\n  100% {\n    opacity: 0.0; } }\n\n.vue-audio-mixer-loader-inner {\n  position: relative; }\n\n.vue-audio-mixer-loader-inner > div {\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  border: 2px solid #1d7a9c;\n  border-bottom-color: transparent;\n  border-top-color: transparent;\n  border-radius: 100%;\n  height: 35px;\n  width: 35px;\n  -webkit-animation: rotate 1s 0s ease-in-out infinite;\n  animation: rotate 1s 0s ease-in-out infinite; }\n\n.vue-audio-mixer-loader-inner > div:last-child {\n  display: inline-block;\n  top: -10px;\n  left: -10px;\n  width: 15px;\n  height: 15px;\n  -webkit-animation-duration: 0.5s;\n  animation-duration: 0.5s;\n  border-color: #00a7cc transparent #00a7cc transparent;\n  -webkit-animation-direction: reverse;\n  animation-direction: reverse; }\n\n.vue-audio-mixer-loader {\n  width: 100%;\n  height: 100px;\n  position: relative; }\n\n.vue-audio-mixer-loader-inner {\n  margin: 0 auto;\n  width: 1px; }\n\n.vue-audio-mixer-loader-text {\n  color: #1d7a9c;\n  text-align: center;\n  width: 100%;\n  font-size: 0.7em;\n  position: relative;\n  top: 50%; }\n\n.vue-audio-mixer {\n  min-width: 105px;\n  overflow: auto;\n  margin: 0 auto;\n  margin-top: 2rem;\n  font-family: 'Open Sans', sans-serif; }\n  .vue-audio-mixer * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    /* Disable selection/copy in UIWebView */ }\n\n* {\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button {\n  position: absolute;\n  left: 10px;\n  top: 5px;\n  font-size: 10px;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-mute-button-label {\n  width: 18px;\n  text-align: center;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-mute-button label input {\n  display: none; }\n\n.vue-audio-mixer-channel-mute-button {\n  margin: 4px;\n  background-color: #666B73;\n  border-radius: 4px;\n  border: 1px solid #000;\n  overflow: auto;\n  float: left;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label {\n  float: left;\n  margin-bottom: 0;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label span {\n  text-align: center;\n  padding: 3px;\n  display: block;\n  border-radius: 4px;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label input {\n  position: absolute;\n  top: -20px; }\n\n.vue-audio-mixer-channel-mute-button input:hover + span {\n  opacity: 0.8; }\n\n.vue-audio-mixer-channel-mute-button input:checked + span {\n  background-color: #911;\n  color: #FFF; }\n\n.vue-audio-mixer-channel-mute-button input:checked:hover + span {\n  opacity: 0.8;\n  color: #FFF; }\n\n.vue-audio-mixer-channel-panner {\n  width: 19px;\n  height: 10px;\n  position: absolute;\n  vertical-align: middle;\n  top: 4px;\n  right: 30px;\n  border: 0px;\n  background: none;\n  font: bold 7px Arial;\n  text-align: center;\n  color: white;\n  padding: 0px;\n  -webkit-appearance: none;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-slider-input {\n  align-self: center;\n  margin: 2px;\n  padding: 0;\n  width: 400px;\n  background: transparent;\n  background: repeating-linear-gradient(90deg, #000, #3b3e41 0.0625em, transparent 0.0625em, transparent 2em) no-repeat 50% 1.5em border-box, repeating-linear-gradient(90deg, #000, #3b3e41 0.0625em, transparent 0.0625em, transparent 2em) no-repeat 50% 0em border-box;\n  background-size: 390px 0.625em, 390px 0.625em, 100% 2.25em;\n  font-size: 1em;\n  cursor: pointer;\n  height: 2em; }\n\n.vue-audio-mixer-channel-slider-input, .vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track, .vue-audio-mixer-channel-slider-input::-webkit-slider-thumb {\n  -webkit-appearance: none; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track {\n  position: relative;\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-moz-range-track {\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-ms-track {\n  border: none;\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  color: transparent;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-ms-fill-lower {\n  display: none; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-thumb {\n  font-size: 0.7em;\n  margin-top: -0.90em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-moz-range-thumb {\n  font-size: 0.7em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-ms-thumb {\n  font-size: 0.7em;\n  margin-top: -0.15em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:before, .vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input #track:before, .vue-audio-mixer-channel-slider-input #track:after {\n  position: absolute;\n  font: 0.75em/8em trebuchet ms, arial, sans-serif; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:before, .vue-audio-mixer-channel-slider-input #track:before {\n  top: 50%;\n  right: 100%;\n  transform: translate(50%, -50%) rotate(90deg) translate(0, 32%); }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input #track:after {\n  left: 50%;\n  width: 3em;\n  word-spacing: 1em; }\n\n.vue-audio-mixer-channel-slider-input:nth-of-type(1)::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input:nth-of-type(1) #track:after {\n  bottom: 100%;\n  transform: translate(-50%, 50%) rotate(90deg) translate(-4.375em);\n  text-align: right; }\n\n.vue-audio-mixer-channel-slider-input:nth-of-type(6)::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input:nth-of-type(6) #track:after {\n  top: 100%;\n  transform: translate(-50%, -50%) rotate(90deg) translate(4.375em); }\n\n.vue-audio-mixer-channel-slider-input:focus {\n  outline: none; }\n\n.vue-audio-mixer-channel-slider-input:focus::-webkit-slider-runnable-track {\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input:focus::-moz-range-track {\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input:focus::-ms-track {\n  background: #15181b; }\n\n.vue-audio-mixer-progress-bar {\n  margin: 5px;\n  background: #292c30;\n  height: 30px;\n  position: relative;\n  display: block;\n  clear: both; }\n\n.vue-audio-mixer-progress-cursor {\n  width: 2px;\n  height: 100%;\n  background: #b6c8e1;\n  position: absolute;\n  left: 0; }\n\n.vue-audio-mixer-transport {\n  overflow: auto;\n  clear: both;\n  display: block;\n  text-align: center;\n  width: 150px;\n  position: relative;\n  margin: 0 auto 0 auto; }\n\n.vue-audio-mixer-timer {\n  font-family: \"Share Tech Mono\";\n  color: #fff;\n  font-size: 2em;\n  padding: 10px;\n  overflow: auto;\n  position: relative;\n  display: block;\n  clear: both;\n  background: #000;\n  text-align: center;\n  margin: 5px; }\n  .vue-audio-mixer-timer span {\n    display: inline-block;\n    text-align: left; }\n    .vue-audio-mixer-timer span span {\n      width: 32.6px; }\n  .vue-audio-mixer-timer .progress-time {\n    width: 150px; }\n  .vue-audio-mixer-timer .total {\n    margin-left: 5px;\n    width: 140px; }\n\nbutton {\n  border: none;\n  padding: 0;\n  background: transparent; }\n\n.vue-audio-mixer-transport-play-button {\n  display: block;\n  width: 0;\n  float: left;\n  height: 0;\n  border-top: 18px solid transparent;\n  border-bottom: 18px solid transparent;\n  border-left: 21.6px solid #d5d5d5;\n  margin: 18px auto 30px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s;\n  left: 100px;\n  position: relative; }\n  .vue-audio-mixer-transport-play-button:focus, .vue-audio-mixer-transport-play-button:active {\n    outline: none; }\n  .vue-audio-mixer-transport-play-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -41.4px;\n    bottom: -27px;\n    right: -12.6px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: -1;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-play-button:after {\n    content: '';\n    opacity: 0;\n    transition: opacity 0.2s;\n    -webkit-transition: opacity 0.2s;\n    -moz-transition: opacity 0.2s;\n    z-index: 2; }\n  .vue-audio-mixer-transport-play-button:hover:before, .vue-audio-mixer-transport-play-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n  .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active {\n    border-color: transparent; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(1), .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(2) {\n      content: '';\n      opacity: 1;\n      width: 2.57143px;\n      height: 28.8px;\n      background: #d5d5d5;\n      position: absolute;\n      right: 1.8px;\n      top: -14.4px;\n      border-left: 7.2px solid #d5d5d5; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(1) {\n      right: 1.8px; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(2) {\n      right: 16.2px; }\n\n.vue-audio-mixer-transport-start-button {\n  display: block;\n  float: left;\n  width: 0;\n  height: 0;\n  border-top: 18px solid transparent;\n  border-bottom: 18px solid transparent;\n  border-right: 21.6px solid #d5d5d5;\n  margin: 18px auto 18px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-start-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -16.2px;\n    bottom: -27px;\n    right: -37.8px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: 2;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-start-button:after {\n    content: \"\";\n    display: block;\n    width: 5px;\n    height: 20px;\n    background: #d5d5d5;\n    margin-top: -10px;\n    margin-left: -4px; }\n  .vue-audio-mixer-transport-start-button:hover:before, .vue-audio-mixer-transport-start-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n\n.vue-audio-mixer-transport-record-button {\n  display: block;\n  width: 0;\n  float: left;\n  height: 0;\n  border: 9px solid #d5d5d5;\n  border-radius: 75%;\n  margin: 50px auto 30px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s;\n  left: 125px; }\n  .vue-audio-mixer-transport-record-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -30px;\n    bottom: -27px;\n    right: -30px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: 2;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-record-button:after {\n    content: '';\n    opacity: 0;\n    transition: opacity 0.2s;\n    -webkit-transition: opacity 0.2s;\n    -moz-transition: opacity 0.2s; }\n  .vue-audio-mixer-transport-record-button:hover:before, .vue-audio-mixer-transport-record-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n  .vue-audio-mixer-transport-record-button.vue-audio-mixer-transport-record-button-active {\n    border-color: red; }\n";
+  var css_248z = "@import url(\"https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap\");\n@import url(\"https://fonts.googleapis.com/css2?family=Open+Sans&display=swap\");\n:export {\n  colourschemeone: #4ba7b7; }\n\n.vue-audio-mixer-channel-label {\n  margin-top: 10px;\n  width: 85px;\n  font-size: 10px;\n  padding-top: 5px;\n  padding-bottom: 5px;\n  height: 1em;\n  overflow: auto;\n  clear: both;\n  float: left;\n  background: #4ba7b7;\n  color: #FFFFFF;\n  text-align: center;\n  border: none;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-strip {\n  background: transparent !important;\n  background: #16191c;\n  position: relative;\n  overflow: auto;\n  display: block;\n  float: left;\n  opacity: 1;\n  width: 100%; }\n\n.vue-audio-mixer-channel {\n  height: 435px;\n  margin: 5px;\n  padding: 5px;\n  padding-top: 50px;\n  box-sizing: content-box;\n  position: relative;\n  float: left;\n  display: block;\n  background: rgba(41, 44, 48, 0.2); }\n  .vue-audio-mixer-channel:last-child {\n    background: #4ba7b7 !important; }\n    .vue-audio-mixer-channel:last-child .vue-audio-mixer-channel-label {\n      background: #000 !important; }\n\n.vue-audio-mixer-channel-slider {\n  top: 230px;\n  left: -135px;\n  display: block;\n  float: left;\n  -ms-transform: rotate(270deg);\n  /* IE 9 */\n  -webkit-transform: rotate(270deg);\n  /* Chrome, Safari, Opera */\n  transform: rotate(270deg);\n  position: absolute; }\n\n.vue-audio-mixer-channel-meter-canvas {\n  margin-right: 50px;\n  margin-left: 10px;\n  display: block;\n  float: left; }\n\n@keyframes rotate {\n  0% {\n    -webkit-transform: rotate(0deg) scale(1);\n    transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(180deg) scale(0.6);\n    transform: rotate(180deg) scale(0.6); }\n  100% {\n    -webkit-transform: rotate(360deg) scale(1);\n    transform: rotate(360deg) scale(1); } }\n\n@-webkit-keyframes ball-scale-ripple {\n  0% {\n    -webkit-transform: scale(0.1);\n    transform: scale(0.1);\n    opacity: 1; }\n  70% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    opacity: 0.7; }\n  100% {\n    opacity: 0.0; } }\n\n@keyframes ball-scale-ripple {\n  0% {\n    -webkit-transform: scale(0.1);\n    transform: scale(0.1);\n    opacity: 1; }\n  70% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    opacity: 0.7; }\n  100% {\n    opacity: 0.0; } }\n\n.vue-audio-mixer-loader-inner {\n  position: relative; }\n\n.vue-audio-mixer-loader-inner > div {\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  border: 2px solid #1d7a9c;\n  border-bottom-color: transparent;\n  border-top-color: transparent;\n  border-radius: 100%;\n  height: 35px;\n  width: 35px;\n  -webkit-animation: rotate 1s 0s ease-in-out infinite;\n  animation: rotate 1s 0s ease-in-out infinite; }\n\n.vue-audio-mixer-loader-inner > div:last-child {\n  display: inline-block;\n  top: -10px;\n  left: -10px;\n  width: 15px;\n  height: 15px;\n  -webkit-animation-duration: 0.5s;\n  animation-duration: 0.5s;\n  border-color: #00a7cc transparent #00a7cc transparent;\n  -webkit-animation-direction: reverse;\n  animation-direction: reverse; }\n\n.vue-audio-mixer-loader {\n  width: 100%;\n  height: 100px;\n  position: relative; }\n\n.vue-audio-mixer-loader-inner {\n  margin: 0 auto;\n  width: 1px; }\n\n.vue-audio-mixer-loader-text {\n  color: #1d7a9c;\n  text-align: center;\n  width: 100%;\n  font-size: 0.7em;\n  position: relative;\n  top: 50%; }\n\n.vue-audio-mixer {\n  min-width: 105px;\n  overflow: auto;\n  margin: 0 auto;\n  margin-top: 2rem;\n  font-family: 'Open Sans', sans-serif; }\n  .vue-audio-mixer * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    /* Disable selection/copy in UIWebView */ }\n\n* {\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button {\n  position: absolute;\n  left: 10px;\n  top: 5px;\n  font-size: 10px;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-mute-button-label {\n  width: 18px;\n  text-align: center;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-mute-button label input {\n  display: none; }\n\n.vue-audio-mixer-channel-mute-button {\n  margin: 4px;\n  background-color: #666B73;\n  border-radius: 4px;\n  border: 1px solid #000;\n  overflow: auto;\n  float: left;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label {\n  float: left;\n  margin-bottom: 0;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label span {\n  text-align: center;\n  padding: 3px;\n  display: block;\n  border-radius: 4px;\n  box-sizing: content-box; }\n\n.vue-audio-mixer-channel-mute-button label input {\n  position: absolute;\n  top: -20px; }\n\n.vue-audio-mixer-channel-mute-button input:hover + span {\n  opacity: 0.8; }\n\n.vue-audio-mixer-channel-mute-button input:checked + span {\n  background-color: #911;\n  color: #FFF; }\n\n.vue-audio-mixer-channel-mute-button input:checked:hover + span {\n  opacity: 0.8;\n  color: #FFF; }\n\n.vue-audio-mixer-channel-panner {\n  width: 19px;\n  height: 10px;\n  position: absolute;\n  vertical-align: middle;\n  top: 4px;\n  right: 30px;\n  border: 0px;\n  background: none;\n  font: bold 7px Arial;\n  text-align: center;\n  color: white;\n  padding: 0px;\n  -webkit-appearance: none;\n  cursor: pointer; }\n\n.vue-audio-mixer-channel-slider-input {\n  align-self: center;\n  margin: 2px;\n  padding: 0;\n  width: 400px;\n  background: transparent;\n  background: repeating-linear-gradient(90deg, #000, #3b3e41 0.0625em, transparent 0.0625em, transparent 2em) no-repeat 50% 1.5em border-box, repeating-linear-gradient(90deg, #000, #3b3e41 0.0625em, transparent 0.0625em, transparent 2em) no-repeat 50% 0em border-box;\n  background-size: 390px 0.625em, 390px 0.625em, 100% 2.25em;\n  font-size: 1em;\n  cursor: pointer;\n  height: 2em; }\n\n.vue-audio-mixer-channel-slider-input, .vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track, .vue-audio-mixer-channel-slider-input::-webkit-slider-thumb {\n  -webkit-appearance: none; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track {\n  position: relative;\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-moz-range-track {\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-ms-track {\n  border: none;\n  width: 390px;\n  height: 0.1em;\n  border-radius: .1875em;\n  color: transparent;\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input::-ms-fill-lower {\n  display: none; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-thumb {\n  font-size: 0.7em;\n  margin-top: -0.90em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-moz-range-thumb {\n  font-size: 0.7em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-ms-thumb {\n  font-size: 0.7em;\n  margin-top: -0.15em;\n  border: none;\n  width: 4em;\n  height: 2em;\n  border-radius: .5em;\n  box-shadow: -.125em 0 .25em #928886,  inset -1px 0 1px #fff;\n  background: radial-gradient(#ebe1e0 10%, rgba(235, 225, 224, 0.2) 10%, rgba(235, 225, 224, 0) 72%) no-repeat 50% 50%, radial-gradient(at 100% 50%, #e9dfde, #eae1de 71%, rgba(0, 0, 0, 0) 71%) no-repeat 2.5em 50%, linear-gradient(90deg, #e9dfde, #d0c8c6) no-repeat 100% 50%, radial-gradient(at 0 50%, #d0c6c5, #c6baba 71%, rgba(0, 0, 0, 0) 71%) no-repeat 0.75em 50%, linear-gradient(90deg, #e3d9d8, #d0c6c5) no-repeat 0 50%, linear-gradient(#cdc0c0, #fcf5ef, #fcf5ef, #cdc0c0);\n  background-size: 0.825em 100%; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:before, .vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input #track:before, .vue-audio-mixer-channel-slider-input #track:after {\n  position: absolute;\n  font: 0.75em/8em trebuchet ms, arial, sans-serif; }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:before, .vue-audio-mixer-channel-slider-input #track:before {\n  top: 50%;\n  right: 100%;\n  transform: translate(50%, -50%) rotate(90deg) translate(0, 32%); }\n\n.vue-audio-mixer-channel-slider-input::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input #track:after {\n  left: 50%;\n  width: 3em;\n  word-spacing: 1em; }\n\n.vue-audio-mixer-channel-slider-input:nth-of-type(1)::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input:nth-of-type(1) #track:after {\n  bottom: 100%;\n  transform: translate(-50%, 50%) rotate(90deg) translate(-4.375em);\n  text-align: right; }\n\n.vue-audio-mixer-channel-slider-input:nth-of-type(6)::-webkit-slider-runnable-track:after, .vue-audio-mixer-channel-slider-input:nth-of-type(6) #track:after {\n  top: 100%;\n  transform: translate(-50%, -50%) rotate(90deg) translate(4.375em); }\n\n.vue-audio-mixer-channel-slider-input:focus {\n  outline: none; }\n\n.vue-audio-mixer-channel-slider-input:focus::-webkit-slider-runnable-track {\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input:focus::-moz-range-track {\n  background: #15181b; }\n\n.vue-audio-mixer-channel-slider-input:focus::-ms-track {\n  background: #15181b; }\n\n.vue-audio-mixer-progress-bar {\n  margin: 5px;\n  background: #292c30;\n  height: 30px;\n  position: relative;\n  display: block;\n  clear: both; }\n\n.vue-audio-mixer-progress-cursor {\n  width: 2px;\n  height: 100%;\n  background: #b6c8e1;\n  position: absolute;\n  left: 0; }\n\n.vue-audio-mixer-transport {\n  overflow: auto;\n  clear: both;\n  display: block;\n  text-align: center;\n  width: 150px;\n  position: relative;\n  margin: 0 auto 0 auto; }\n\n.vue-audio-mixer-timer {\n  font-family: \"Share Tech Mono\";\n  color: #fff;\n  font-size: 2em;\n  padding: 10px;\n  overflow: auto;\n  position: relative;\n  display: block;\n  clear: both;\n  background: #000;\n  text-align: center;\n  margin: 5px; }\n  .vue-audio-mixer-timer span {\n    display: inline-block;\n    text-align: left; }\n    .vue-audio-mixer-timer span span {\n      width: 32.6px; }\n  .vue-audio-mixer-timer .progress-time {\n    width: 150px; }\n  .vue-audio-mixer-timer .total {\n    margin-left: 5px;\n    width: 140px; }\n\nbutton {\n  border: none;\n  padding: 0;\n  background: transparent; }\n\n.vue-audio-mixer-transport-play-button {\n  display: block;\n  width: 0;\n  float: left;\n  height: 0;\n  border-top: 18px solid transparent;\n  border-bottom: 18px solid transparent;\n  border-left: 21.6px solid #d5d5d5;\n  margin: 18px auto 30px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s;\n  left: 100px;\n  position: relative; }\n  .vue-audio-mixer-transport-play-button:focus, .vue-audio-mixer-transport-play-button:active {\n    outline: none; }\n  .vue-audio-mixer-transport-play-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -41.4px;\n    bottom: -27px;\n    right: -12.6px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: -1;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-play-button:after {\n    content: '';\n    opacity: 0;\n    transition: opacity 0.2s;\n    -webkit-transition: opacity 0.2s;\n    -moz-transition: opacity 0.2s;\n    z-index: 2; }\n  .vue-audio-mixer-transport-play-button:hover:before, .vue-audio-mixer-transport-play-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n  .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active {\n    border-color: transparent; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(1), .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(2) {\n      content: '';\n      opacity: 1;\n      width: 2.57143px;\n      height: 28.8px;\n      background: #d5d5d5;\n      position: absolute;\n      right: 1.8px;\n      top: -14.4px;\n      border-left: 7.2px solid #d5d5d5; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(1) {\n      right: 1.8px; }\n    .vue-audio-mixer-transport-play-button.vue-audio-mixer-transport-play-button-active span:nth-child(2) {\n      right: 16.2px; }\n\n.vue-audio-mixer-transport-start-button {\n  display: block;\n  float: left;\n  width: 0;\n  height: 0;\n  border-top: 18px solid transparent;\n  border-bottom: 18px solid transparent;\n  border-right: 21.6px solid #d5d5d5;\n  margin: 18px auto 18px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-start-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -16.2px;\n    bottom: -27px;\n    right: -37.8px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: 2;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-start-button:after {\n    content: \"\";\n    display: block;\n    width: 5px;\n    height: 20px;\n    background: #d5d5d5;\n    margin-top: -10px;\n    margin-left: -4px; }\n  .vue-audio-mixer-transport-start-button:hover:before, .vue-audio-mixer-transport-start-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n\n.vue-audio-mixer-transport-record-button {\n  display: block;\n  width: 0;\n  float: left;\n  height: 0;\n  border: 9px solid #d5d5d5;\n  border-radius: 75%;\n  margin: 50px auto 30px auto;\n  position: relative;\n  z-index: 1;\n  transition: all 0.1s;\n  -webkit-transition: all 0.1s;\n  -moz-transition: all 0.1s;\n  left: 125px; }\n  .vue-audio-mixer-transport-record-button:before {\n    content: '';\n    position: absolute;\n    top: -27px;\n    left: -30px;\n    bottom: -27px;\n    right: -30px;\n    border-radius: 50%;\n    border: 2px solid #d5d5d5;\n    z-index: 2;\n    transition: all 0.1s;\n    -webkit-transition: all 0.1s;\n    -moz-transition: all 0.1s; }\n  .vue-audio-mixer-transport-record-button:after {\n    content: '';\n    opacity: 0;\n    transition: opacity 0.2s;\n    -webkit-transition: opacity 0.2s;\n    -moz-transition: opacity 0.2s; }\n  .vue-audio-mixer-transport-record-button:hover:before, .vue-audio-mixer-transport-record-button:focus:before {\n    transform: scale(1.1);\n    -webkit-transform: scale(1.1);\n    -moz-transform: scale(1.1); }\n  .vue-audio-mixer-transport-record-button.vue-audio-mixer-transport-record-button-active {\n    border-color: red; }\n\n.vue-audio-mixer-countdown {\n  background-color: black;\n  opacity: 0.6;\n  position: absolute;\n  width: inherit;\n  height: 100%;\n  z-index: 99;\n  display: none; }\n\n#countdown-seconds {\n  color: white;\n  font-size: 160px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n";
   styleInject(css_248z);
 
   //
-  var script$7 = {
+  var script$8 = {
     name: 'app',
     components: {
-      VueAudioMixer: __vue_component__$6
+      VueAudioMixer: __vue_component__$7
     },
     data: function () {
       return {
@@ -11684,37 +11778,37 @@
         config: {
           "tracks": [{
             "title": "Strings1",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840237/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": -60,
             "gain": 0.5,
             "muted": false
           }, {
             "title": "Strings2",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840234/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": 81,
             "gain": "1.08",
             "muted": true
           }, {
             "title": "Strings3",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840222/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": -49,
             "gain": "0.85",
             "muted": true
           }, {
             "title": "Strings1",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": -60,
             "gain": 0.5,
             "muted": false
           }, {
             "title": "Strings2",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": 81,
             "gain": "1.08",
             "muted": true
           }, {
             "title": "Strings3",
-            "url": "https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+            "url": "https://api.soundcloud.com/tracks/841840174/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
             "pan": -49,
             "gain": "0.85",
             "muted": true
@@ -11723,6 +11817,11 @@
             "pan": -49,
             "gain": 0.85,
             "muted": false
+          },
+          "hooks": {
+            "beforePlay": {
+              "contdown": 7
+            }
           }
         }
       };
@@ -11820,12 +11919,13 @@
           }
       }
   }
+  //# sourceMappingURL=browser.mjs.map
 
   /* script */
-  const __vue_script__$7 = script$7;
+  const __vue_script__$8 = script$8;
 
   /* template */
-  var __vue_render__$7 = function() {
+  var __vue_render__$8 = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -11844,34 +11944,34 @@
       1
     )
   };
-  var __vue_staticRenderFns__$7 = [];
-  __vue_render__$7._withStripped = true;
+  var __vue_staticRenderFns__$8 = [];
+  __vue_render__$8._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$7 = function (inject) {
+    const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-0c25fd24_0", { source: "\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px;\n}\n.string { color: green;\n}\n.number { color: darkorange;\n}\n.boolean { color: blue;\n}\n.null { color: magenta;\n}\n.key { color: red;\n}\n\n", map: {"version":3,"sources":["/Users/juliancole/Code/vue-audio-mixer/example/Demo.vue"],"names":[],"mappings":";AA6HA,KAAA,uBAAA,EAAA,YAAA,EAAA,WAAA;AAAA;AACA,UAAA,YAAA;AAAA;AACA,UAAA,iBAAA;AAAA;AACA,WAAA,WAAA;AAAA;AACA,QAAA,cAAA;AAAA;AACA,OAAA,UAAA;AAAA","file":"Demo.vue","sourcesContent":["<template>\n  <div>\n    <vue-audio-mixer :config=\"config\" @input=\"setConfig\" />\n    <pre v-html=\"syntaxHighlight(newConfig)\"></pre>\n  </div>\n</template>\n\n<script>\n\nimport VueAudioMixer from '../src/components/Mixer.vue';\nimport '../src/scss/main.scss'; \n\nexport default {\n  name: 'app',\n  components: {\n    VueAudioMixer\n  },\n  data : function(){     \n\n    return {\n      newConfig: null,\n      config: {\n        \"tracks\":[\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            }\n        ],\n        \"master\":{\n            \"pan\":-49,\n            \"gain\":0.85,\n            \"muted\":false\n        }\n      }\n    }  \n  },\n  created(){\n\n  },\n\n  beforeDestroy() {\n  \n  },\n  methods:{\n\n    setConfig(newVal)\n    {\n      this.newConfig = newVal;\n    },\n\n    // accepts json string\n    // returns pretyyprinted json\n    syntaxHighlight(json) {\n      if (typeof json != 'string') {\n           json = JSON.stringify(json, undefined, 2);\n      }\n      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n      return json.replace(/(\"(\\\\u[a-zA-Z0-9]{4}|\\\\[^u]|[^\\\\\"])*\"(\\s*:)?|\\b(true|false|null)\\b|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?)/g, function (match) {\n          var cls = 'number';\n          if (/^\"/.test(match)) {\n              if (/:$/.test(match)) {\n                  cls = 'key';\n              } else {\n                  cls = 'string';\n              }\n          } else if (/true|false/.test(match)) {\n              cls = 'boolean';\n          } else if (/null/.test(match)) {\n              cls = 'null';\n          }\n          return '<span class=\"' + cls + '\">' + match + '</span>';\n      });\n  }\n\n\n\n  },\n\n  computed: {\n\n  }\n\n}\n</script>\n\n<style>\n\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }\n.string { color: green; }\n.number { color: darkorange; }\n.boolean { color: blue; }\n.null { color: magenta; }\n.key { color: red; }\n\n</style>\n\n\n\n"]}, media: undefined });
+      inject("data-v-55cca3f8_0", { source: "\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px;\n}\n.string { color: green;\n}\n.number { color: darkorange;\n}\n.boolean { color: blue;\n}\n.null { color: magenta;\n}\n.key { color: red;\n}\n\n", map: {"version":3,"sources":["/Users/ricardo/Documents/dev/vue-audio-mixer/example/Demo.vue"],"names":[],"mappings":";AAkIA,KAAA,uBAAA,EAAA,YAAA,EAAA,WAAA;AAAA;AACA,UAAA,YAAA;AAAA;AACA,UAAA,iBAAA;AAAA;AACA,WAAA,WAAA;AAAA;AACA,QAAA,cAAA;AAAA;AACA,OAAA,UAAA;AAAA","file":"Demo.vue","sourcesContent":["<template>\n  <div>\n    <vue-audio-mixer :config=\"config\" @input=\"setConfig\" />\n    <pre v-html=\"syntaxHighlight(newConfig)\"></pre>\n  </div>\n</template>\n\n<script>\n\nimport VueAudioMixer from '../src/components/Mixer.vue';\nimport '../src/scss/main.scss'; \n\nexport default {\n  name: 'app',\n  components: {\n    VueAudioMixer\n  },\n  data : function(){     \n\n    return {\n      newConfig: null,\n      config: {\n        \"tracks\":[\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840237/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840234/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840222/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840174/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            }\n        ],\n        \"master\":{\n            \"pan\":-49,\n            \"gain\":0.85,\n            \"muted\":false\n        },\n        \"hooks\": {\n          \"beforePlay\": {\n            \"contdown\": 7\n          }\n        }\n      }\n    }  \n  },\n  created(){\n\n  },\n\n  beforeDestroy() {\n  \n  },\n  methods:{\n\n    setConfig(newVal)\n    {\n      this.newConfig = newVal;\n    },\n\n    // accepts json string\n    // returns pretyyprinted json\n    syntaxHighlight(json) {\n      if (typeof json != 'string') {\n           json = JSON.stringify(json, undefined, 2);\n      }\n      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n      return json.replace(/(\"(\\\\u[a-zA-Z0-9]{4}|\\\\[^u]|[^\\\\\"])*\"(\\s*:)?|\\b(true|false|null)\\b|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?)/g, function (match) {\n          var cls = 'number';\n          if (/^\"/.test(match)) {\n              if (/:$/.test(match)) {\n                  cls = 'key';\n              } else {\n                  cls = 'string';\n              }\n          } else if (/true|false/.test(match)) {\n              cls = 'boolean';\n          } else if (/null/.test(match)) {\n              cls = 'null';\n          }\n          return '<span class=\"' + cls + '\">' + match + '</span>';\n      });\n  }\n\n\n\n  },\n\n  computed: {\n\n  }\n\n}\n</script>\n\n<style>\n\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }\n.string { color: green; }\n.number { color: darkorange; }\n.boolean { color: blue; }\n.null { color: magenta; }\n.key { color: red; }\n\n</style>\n\n\n\n"]}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = undefined;
+    const __vue_scope_id__$8 = undefined;
     /* module identifier */
-    const __vue_module_identifier__$7 = undefined;
+    const __vue_module_identifier__$8 = undefined;
     /* functional template */
-    const __vue_is_functional_template__$7 = false;
+    const __vue_is_functional_template__$8 = false;
     /* style inject SSR */
     
     /* style inject shadow dom */
     
 
     
-    const __vue_component__$7 = /*#__PURE__*/normalizeComponent(
-      { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
-      __vue_inject_styles__$7,
-      __vue_script__$7,
-      __vue_scope_id__$7,
-      __vue_is_functional_template__$7,
-      __vue_module_identifier__$7,
+    const __vue_component__$8 = /*#__PURE__*/normalizeComponent(
+      { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
+      __vue_inject_styles__$8,
+      __vue_script__$8,
+      __vue_scope_id__$8,
+      __vue_is_functional_template__$8,
+      __vue_module_identifier__$8,
       false,
       createInjector,
       undefined,
@@ -11883,7 +11983,7 @@
 
   new Vue({
     el: '#app',
-    render: h => h(__vue_component__$7)
+    render: h => h(__vue_component__$8)
   });
 
 }());

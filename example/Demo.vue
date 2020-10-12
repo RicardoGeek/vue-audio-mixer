@@ -23,42 +23,42 @@ export default {
         "tracks":[
             {
                 "title":"Strings1",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840237/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":-60,
                 "gain":0.5,
                 "muted":false
             },
             {
                 "title":"Strings2",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840234/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":81,
                 "gain":"1.08",
                 "muted":true
             },
             {
                 "title":"Strings3",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840222/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":-49,
                 "gain":"0.85",
                 "muted":true
             },
             {
                 "title":"Strings1",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":-60,
                 "gain":0.5,
                 "muted":false
             },
             {
                 "title":"Strings2",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":81,
                 "gain":"1.08",
                 "muted":true
             },
             {
                 "title":"Strings3",
-                "url":"https://api.soundcloud.com/tracks/515722791/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
+                "url":"https://api.soundcloud.com/tracks/841840174/stream?client_id=ae1dadcc70f054f451de8c6358bcf396",
                 "pan":-49,
                 "gain":"0.85",
                 "muted":true
@@ -68,6 +68,11 @@ export default {
             "pan":-49,
             "gain":0.85,
             "muted":false
+        },
+        "hooks": {
+          "beforePlay": {
+            "contdown": 7
+          }
         }
       }
     }  
