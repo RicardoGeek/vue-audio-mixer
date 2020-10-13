@@ -521,3 +521,19 @@ button {
     -moz-transform: scale(1.1); }
   .vue-audio-mixer-transport-record-button.vue-audio-mixer-transport-record-button-active {
     border-color: red; }
+
+.vue-audio-mixer-countdown {
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  width: inherit;
+  height: 100%;
+  z-index: 99;
+  display: none; }
+
+#countdown-seconds {
+  color: white;
+  font-size: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }

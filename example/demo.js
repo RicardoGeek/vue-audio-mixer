@@ -4,8 +4,8 @@
   'use strict';
 
   /*!
-   * Vue.js v2.6.11
-   * (c) 2014-2019 Evan You
+   * Vue.js v2.6.12
+   * (c) 2014-2020 Evan You
    * Released under the MIT License.
    */
   /*  */
@@ -5440,7 +5440,7 @@
     value: FunctionalRenderContext
   });
 
-  Vue.version = '2.6.11';
+  Vue.version = '2.6.12';
 
   /*  */
 
@@ -7009,7 +7009,7 @@
         // skip the update if old and new VDOM state is the same.
         // `value` is handled separately because the DOM value may be temporarily
         // out of sync with VDOM state due to focus, composition and modifiers.
-        // This  #4521 by skipping the unnecesarry `checked` update.
+        // This  #4521 by skipping the unnecessary `checked` update.
         cur !== oldProps[key]
       ) {
         // some property updates can throw
@@ -10176,7 +10176,7 @@
 
   /******/ })["default"];
   });
-  //# sourceMappingURL=vue-knob-control.umd.js.map
+
   });
 
   var VueKnobControl = unwrapExports(vueKnobControl_umd);
@@ -10416,7 +10416,6 @@
       }
       return script;
   }
-  //# sourceMappingURL=normalize-component.mjs.map
 
   /* script */
   const __vue_script__ = script;
@@ -11919,7 +11918,6 @@
           }
       }
   }
-  //# sourceMappingURL=browser.mjs.map
 
   /* script */
   const __vue_script__$8 = script$8;
@@ -11950,7 +11948,7 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-55cca3f8_0", { source: "\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px;\n}\n.string { color: green;\n}\n.number { color: darkorange;\n}\n.boolean { color: blue;\n}\n.null { color: magenta;\n}\n.key { color: red;\n}\n\n", map: {"version":3,"sources":["/Users/ricardo/Documents/dev/vue-audio-mixer/example/Demo.vue"],"names":[],"mappings":";AAkIA,KAAA,uBAAA,EAAA,YAAA,EAAA,WAAA;AAAA;AACA,UAAA,YAAA;AAAA;AACA,UAAA,iBAAA;AAAA;AACA,WAAA,WAAA;AAAA;AACA,QAAA,cAAA;AAAA;AACA,OAAA,UAAA;AAAA","file":"Demo.vue","sourcesContent":["<template>\n  <div>\n    <vue-audio-mixer :config=\"config\" @input=\"setConfig\" />\n    <pre v-html=\"syntaxHighlight(newConfig)\"></pre>\n  </div>\n</template>\n\n<script>\n\nimport VueAudioMixer from '../src/components/Mixer.vue';\nimport '../src/scss/main.scss'; \n\nexport default {\n  name: 'app',\n  components: {\n    VueAudioMixer\n  },\n  data : function(){     \n\n    return {\n      newConfig: null,\n      config: {\n        \"tracks\":[\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840237/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840234/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840222/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840174/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            }\n        ],\n        \"master\":{\n            \"pan\":-49,\n            \"gain\":0.85,\n            \"muted\":false\n        },\n        \"hooks\": {\n          \"beforePlay\": {\n            \"contdown\": 7\n          }\n        }\n      }\n    }  \n  },\n  created(){\n\n  },\n\n  beforeDestroy() {\n  \n  },\n  methods:{\n\n    setConfig(newVal)\n    {\n      this.newConfig = newVal;\n    },\n\n    // accepts json string\n    // returns pretyyprinted json\n    syntaxHighlight(json) {\n      if (typeof json != 'string') {\n           json = JSON.stringify(json, undefined, 2);\n      }\n      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n      return json.replace(/(\"(\\\\u[a-zA-Z0-9]{4}|\\\\[^u]|[^\\\\\"])*\"(\\s*:)?|\\b(true|false|null)\\b|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?)/g, function (match) {\n          var cls = 'number';\n          if (/^\"/.test(match)) {\n              if (/:$/.test(match)) {\n                  cls = 'key';\n              } else {\n                  cls = 'string';\n              }\n          } else if (/true|false/.test(match)) {\n              cls = 'boolean';\n          } else if (/null/.test(match)) {\n              cls = 'null';\n          }\n          return '<span class=\"' + cls + '\">' + match + '</span>';\n      });\n  }\n\n\n\n  },\n\n  computed: {\n\n  }\n\n}\n</script>\n\n<style>\n\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }\n.string { color: green; }\n.number { color: darkorange; }\n.boolean { color: blue; }\n.null { color: magenta; }\n.key { color: red; }\n\n</style>\n\n\n\n"]}, media: undefined });
+      inject("data-v-e6c7b1f0_0", { source: "\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px;\n}\n.string { color: green;\n}\n.number { color: darkorange;\n}\n.boolean { color: blue;\n}\n.null { color: magenta;\n}\n.key { color: red;\n}\n\n", map: {"version":3,"sources":["C:\\Users\\maste\\Documents\\dev\\vue-audio-mixer\\example\\Demo.vue"],"names":[],"mappings":";AAkIA,KAAA,uBAAA,EAAA,YAAA,EAAA,WAAA;AAAA;AACA,UAAA,YAAA;AAAA;AACA,UAAA,iBAAA;AAAA;AACA,WAAA,WAAA;AAAA;AACA,QAAA,cAAA;AAAA;AACA,OAAA,UAAA;AAAA","file":"Demo.vue","sourcesContent":["<template>\n  <div>\n    <vue-audio-mixer :config=\"config\" @input=\"setConfig\" />\n    <pre v-html=\"syntaxHighlight(newConfig)\"></pre>\n  </div>\n</template>\n\n<script>\n\nimport VueAudioMixer from '../src/components/Mixer.vue';\nimport '../src/scss/main.scss'; \n\nexport default {\n  name: 'app',\n  components: {\n    VueAudioMixer\n  },\n  data : function(){     \n\n    return {\n      newConfig: null,\n      config: {\n        \"tracks\":[\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840237/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840234/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840222/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings1\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-60,\n                \"gain\":0.5,\n                \"muted\":false\n            },\n            {\n                \"title\":\"Strings2\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840216/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":81,\n                \"gain\":\"1.08\",\n                \"muted\":true\n            },\n            {\n                \"title\":\"Strings3\",\n                \"url\":\"https://api.soundcloud.com/tracks/841840174/stream?client_id=ae1dadcc70f054f451de8c6358bcf396\",\n                \"pan\":-49,\n                \"gain\":\"0.85\",\n                \"muted\":true\n            }\n        ],\n        \"master\":{\n            \"pan\":-49,\n            \"gain\":0.85,\n            \"muted\":false\n        },\n        \"hooks\": {\n          \"beforePlay\": {\n            \"contdown\": 7\n          }\n        }\n      }\n    }  \n  },\n  created(){\n\n  },\n\n  beforeDestroy() {\n  \n  },\n  methods:{\n\n    setConfig(newVal)\n    {\n      this.newConfig = newVal;\n    },\n\n    // accepts json string\n    // returns pretyyprinted json\n    syntaxHighlight(json) {\n      if (typeof json != 'string') {\n           json = JSON.stringify(json, undefined, 2);\n      }\n      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n      return json.replace(/(\"(\\\\u[a-zA-Z0-9]{4}|\\\\[^u]|[^\\\\\"])*\"(\\s*:)?|\\b(true|false|null)\\b|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?)/g, function (match) {\n          var cls = 'number';\n          if (/^\"/.test(match)) {\n              if (/:$/.test(match)) {\n                  cls = 'key';\n              } else {\n                  cls = 'string';\n              }\n          } else if (/true|false/.test(match)) {\n              cls = 'boolean';\n          } else if (/null/.test(match)) {\n              cls = 'null';\n          }\n          return '<span class=\"' + cls + '\">' + match + '</span>';\n      });\n  }\n\n\n\n  },\n\n  computed: {\n\n  }\n\n}\n</script>\n\n<style>\n\npre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }\n.string { color: green; }\n.number { color: darkorange; }\n.boolean { color: blue; }\n.null { color: magenta; }\n.key { color: red; }\n\n</style>\n\n\n\n"]}, media: undefined });
 
     };
     /* scoped */

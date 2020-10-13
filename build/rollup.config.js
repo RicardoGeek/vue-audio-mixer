@@ -19,7 +19,11 @@ export default {
         }),
         scss(),
 
-        buble(), // Transpile to ES5
+        buble({
+            transforms: { 
+                asyncAwait: false 
+            }
+        }), // Transpile to ES5
         resolve(),
         replace({
           'process.env.NODE_ENV': JSON.stringify('production'),

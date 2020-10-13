@@ -1748,8 +1748,8 @@ if (typeof __g == 'number') { __g = global; } // eslint-disable-line no-undef
 var VueKnobControl = unwrapExports(vueKnobControl_umd);
 
 /*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 /*  */
@@ -3021,7 +3021,7 @@ function normalizeProps (options, vm) {
         ? val
         : { type: val };
     }
-  }
+  } else ;
   options.props = res;
 }
 
@@ -3043,7 +3043,7 @@ function normalizeInject (options, vm) {
         ? extend({ from: key }, val)
         : { from: val };
     }
-  }
+  } else ;
 }
 
 /**
@@ -6427,7 +6427,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -7884,7 +7884,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -9747,20 +9747,12 @@ var script$1 = {
     setupAudioNodes: function setupAudioNodes() {
         var this$1 = this;
 
- 
-
-
         // create a buffer source node
         this.sourceNode = this.context.createBufferSource();
         this.sourceNode.buffer = this.buffer;
 
-       
-
-
        // this.sourceNode.loop = false; // false to stop looping
       //  this.sourceNode.muted = false; 
-
-
 
         // setup a analyzers
         this.leftAnalyser = this.context.createAnalyser();
@@ -9770,8 +9762,6 @@ var script$1 = {
         this.rightAnalyser = this.context.createAnalyser();
         this.rightAnalyser.smoothingTimeConstant = 0.0;
         this.rightAnalyser.fftSize = 1024;
-
-
 
         // Create a gain node.
         this.gainNode = this.context.createGain();
@@ -9785,8 +9775,6 @@ var script$1 = {
         // create splitter
         this.splitter = this.context.createChannelSplitter(2);
 
-
-
         // connect everything together
         this.pannerNode.connect(this.splitter);
         this.gainNode.connect(this.pannerNode);
@@ -9796,16 +9784,10 @@ var script$1 = {
         this.splitter.connect(this.rightAnalyser,1,0);
         this.pannerNode.connect(this.output);
 
-
-        //this.leftAnalyser.connect(this.scriptProcessorNode);
-
-
         // initial values
         this.muteChange(this.muted);
         this.changeGain(this.gain);
         this.changePan(this.pan);
-
-
 
         this.sourceNode.onended = function () {
           this$1.onended();
@@ -9818,7 +9800,6 @@ var script$1 = {
 
     onended: function onended()
     {
-
         // disconnect everything
         this.scriptProcessorNode.disconnect();
         this.sourceNode.disconnect();
@@ -10228,8 +10209,60 @@ var __vue_staticRenderFns__$5 = [function () {var _vm=this;var _h=_vm.$createEle
   );
 
 //
+//
+//
+//
+//
+//
+
 
 var script$6 = {
+  name: 'countdown',
+  data : function(){       
+      return {
+      };
+  }
+};
+
+/* script */
+var __vue_script__$6 = script$6;
+
+/* template */
+var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)};
+var __vue_staticRenderFns__$6 = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-audio-mixer-countdown",attrs:{"id":"countdown-overlay"}},[_c('span',{attrs:{"id":"countdown-seconds"}})])}];
+
+  /* style */
+  var __vue_inject_styles__$6 = undefined;
+  /* scoped */
+  var __vue_scope_id__$6 = undefined;
+  /* module identifier */
+  var __vue_module_identifier__$6 = undefined;
+  /* functional template */
+  var __vue_is_functional_template__$6 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  var __vue_component__$6 = /*#__PURE__*/normalizeComponent(
+    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+    __vue_inject_styles__$6,
+    __vue_script__$6,
+    __vue_scope_id__$6,
+    __vue_is_functional_template__$6,
+    __vue_module_identifier__$6,
+    false,
+    undefined,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$7 = {
   name: 'app',
   props: [
       'config'
@@ -10240,7 +10273,8 @@ var script$6 = {
     Loader: __vue_component__$5,
     TimeDisplay: __vue_component__$2,
     TransportButtons: __vue_component__$4,
-    ProgressBar: __vue_component__$3
+    ProgressBar: __vue_component__$3,
+    Countdown: __vue_component__$6
   },
   data : function(){       
       return {
@@ -10264,7 +10298,8 @@ var script$6 = {
         overRideProgressBarPosition: false,
         progressBarPosition        : 0,
         tracks                     : [],
-        tracksLoaded               : 0
+        tracksLoaded               : 0,
+        hooks                      : {}
       };
   },
   created: function created(){
@@ -10383,6 +10418,7 @@ var script$6 = {
         this.masterPanValue  = json.master.pan;
         this.masterGainValue = json.master.gain;
         this.masterMuted     = json.master.muted;
+        this.hooks = json.hooks;
       }
 
 
@@ -10399,20 +10435,37 @@ var script$6 = {
     },
 
 
+    delay: async function delay(milisecods) {
+      return new Promise(function (resolve) { return setTimeout(resolve, milisecods); })
+    },
 
 
-
-    togglePlay: function togglePlay()
+    togglePlay: async function togglePlay()
     {
-      if(this.playing){
+      if (this.playing){
         this.pausedAt = this.progress;
         EventBus.$emit('stop');
-      }else {
+      } else {
+        if ( this.hooks && this.hooks.beforePlay ) {
+            var countdownOverlay = document.getElementById('countdown-overlay');
+            var countdownSeconds = document.getElementById('countdown-seconds');
 
+            countdownOverlay.style.display = 'block';
+            var seconds = this.hooks.beforePlay.contdown;
 
+            for(var i = 1; i<= seconds; i++) {
+              countdownSeconds.innerText = ((seconds + 1) - i);
+              await this.delay(1000);
+            }
+            countdownOverlay.style.display = 'none';
 
-        this.startedAt = Date.now() - this.progress;
-        EventBus.$emit('play',this.pausedAt);
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play',this.pausedAt);
+        } else {
+            this.startedAt = Date.now() - this.progress;
+            EventBus.$emit('play',this.pausedAt);
+        }
+        
       }
       
     },
@@ -10544,20 +10597,20 @@ var script$6 = {
 };
 
 /* script */
-var __vue_script__$6 = script$6;
+var __vue_script__$7 = script$7;
 
 /* template */
-var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-audio-mixer",style:({width:_vm.mixerwidth})},[(_vm.loading)?_c('Loader',{attrs:{"percentLoaded":_vm.loadingPercent}}):_vm._e(),_vm._v(" "),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.loading),expression:"!loading"}]},[_c('div',{staticClass:"vue-audio-mixer-channel-strip"},[_vm._l((_vm.tracks),function(track,index){return _c('MixerChannel',{key:index,attrs:{"title":track.title,"defaultPan":track.pan,"defaultGain":track.gain,"defaultMuted":track.muted,"context":_vm.context,"output":_vm.gainNode,"url":track.url,"trackIndex":index},on:{"panChange":_vm.changePan,"gainChange":_vm.changeGain,"muteChange":_vm.changeMute}})}),_vm._v(" "),_c('Channel',{attrs:{"title":"Master","defaultPan":_vm.masterPanValue,"defaultGain":_vm.masterGainValue,"defaultMuted":_vm.masterMuted,"leftAnalyser":_vm.leftAnalyser,"rightAnalyser":_vm.rightAnalyser,"scriptProcessorNode":_vm.scriptProcessorNode},on:{"muteChange":_vm.changeMasterMute,"gainChange":_vm.changeMasterGain,"panChange":_vm.changeMasterPan}})],2),_vm._v(" "),_c('TimeDisplay',{attrs:{"progressTime":_vm.progress,"totalTime":_vm.totalDuration}}),_vm._v(" "),_c('ProgressBar',{attrs:{"progressPercent":_vm.progressPercent},on:{"percent":_vm.playFromPercent}}),_vm._v(" "),_c('TransportButtons',{attrs:{"playing":_vm.playing},on:{"stop":_vm.stop,"togglePlay":_vm.togglePlay}})],1)],1)};
-var __vue_staticRenderFns__$6 = [];
+var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-audio-mixer",style:({width:_vm.mixerwidth})},[(_vm.loading)?_c('Loader',{attrs:{"percentLoaded":_vm.loadingPercent}}):_vm._e(),_vm._v(" "),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.loading),expression:"!loading"}]},[_c('div',{staticClass:"vue-audio-mixer-channel-strip"},[_c('Countdown'),_vm._v(" "),_vm._l((_vm.tracks),function(track,index){return _c('MixerChannel',{key:index,attrs:{"title":track.title,"defaultPan":track.pan,"defaultGain":track.gain,"defaultMuted":track.muted,"context":_vm.context,"output":_vm.gainNode,"url":track.url,"trackIndex":index},on:{"panChange":_vm.changePan,"gainChange":_vm.changeGain,"muteChange":_vm.changeMute}})}),_vm._v(" "),_c('Channel',{attrs:{"title":"Master","defaultPan":_vm.masterPanValue,"defaultGain":_vm.masterGainValue,"defaultMuted":_vm.masterMuted,"leftAnalyser":_vm.leftAnalyser,"rightAnalyser":_vm.rightAnalyser,"scriptProcessorNode":_vm.scriptProcessorNode},on:{"muteChange":_vm.changeMasterMute,"gainChange":_vm.changeMasterGain,"panChange":_vm.changeMasterPan}})],2),_vm._v(" "),_c('TimeDisplay',{attrs:{"progressTime":_vm.progress,"totalTime":_vm.totalDuration}}),_vm._v(" "),_c('ProgressBar',{attrs:{"progressPercent":_vm.progressPercent},on:{"percent":_vm.playFromPercent}}),_vm._v(" "),_c('TransportButtons',{attrs:{"playing":_vm.playing},on:{"stop":_vm.stop,"togglePlay":_vm.togglePlay}})],1)],1)};
+var __vue_staticRenderFns__$7 = [];
 
   /* style */
-  var __vue_inject_styles__$6 = undefined;
+  var __vue_inject_styles__$7 = undefined;
   /* scoped */
-  var __vue_scope_id__$6 = undefined;
+  var __vue_scope_id__$7 = undefined;
   /* module identifier */
-  var __vue_module_identifier__$6 = undefined;
+  var __vue_module_identifier__$7 = undefined;
   /* functional template */
-  var __vue_is_functional_template__$6 = false;
+  var __vue_is_functional_template__$7 = false;
   /* style inject */
   
   /* style inject SSR */
@@ -10566,13 +10619,13 @@ var __vue_staticRenderFns__$6 = [];
   
 
   
-  var __vue_component__$6 = /*#__PURE__*/normalizeComponent(
-    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
-    __vue_inject_styles__$6,
-    __vue_script__$6,
-    __vue_scope_id__$6,
-    __vue_is_functional_template__$6,
-    __vue_module_identifier__$6,
+  var __vue_component__$7 = /*#__PURE__*/normalizeComponent(
+    { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
+    __vue_inject_styles__$7,
+    __vue_script__$7,
+    __vue_scope_id__$7,
+    __vue_is_functional_template__$7,
+    __vue_module_identifier__$7,
     false,
     undefined,
     undefined,
@@ -10585,7 +10638,7 @@ var __vue_staticRenderFns__$6 = [];
 function install(Vue) {
     if (install.installed) { return; }
     install.installed = true;
-    Vue.component('vue-audio-mixer', __vue_component__$6);
+    Vue.component('vue-audio-mixer', __vue_component__$7);
 }
 
 // Create module definition for Vue.use()
@@ -10605,5 +10658,5 @@ if (GlobalVue) {
     GlobalVue.use(plugin);
 }
 
-export default __vue_component__$6;
+export default __vue_component__$7;
 export { install };
