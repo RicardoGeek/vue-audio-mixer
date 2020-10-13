@@ -112,7 +112,7 @@ Or use directly from a CDN
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vue-audio-mixer/dist/vue-audio-mixer.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/custom-vue-audio-mixer/dist/vue-audio-mixer.min.css">
 </head>
 <body>
 
@@ -120,7 +120,7 @@ Or use directly from a CDN
   <vue-audio-mixer :config="config" ></vue-audio-mixer>
 </div>
 <script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vue-audio-mixer/dist/vue-audio-mixer.min.js"></script>
+<script src="https://unpkg.com/custom-vue-audio-mixer/dist/vue-audio-mixer.min.js"></script>
 
 <script>
 const app = new Vue({
@@ -183,8 +183,7 @@ const app = new Vue({
           }
         }
       }
-    }  
-    
+    }
   }
 })
 </script> 

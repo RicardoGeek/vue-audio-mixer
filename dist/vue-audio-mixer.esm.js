@@ -9871,6 +9871,9 @@ var __vue_staticRenderFns__$1 = [];
 //
 //
 //
+//
+//
+//
 
 
 var script$2 = {
@@ -9918,8 +9921,8 @@ var script$2 = {
 var __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-audio-mixer-timer"},[_c('span',{staticClass:"progress-time"},[_c('span',[_vm._v(_vm._s(_vm.progressFormatted[0]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.progressFormatted[1]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.progressFormatted[2]))])]),_vm._v(" "),_c('span',[_vm._v(" / ")]),_vm._v(" "),_c('span',{staticClass:"total"},[_c('span',[_vm._v(_vm._s(_vm.totalLength[0]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.totalLength[1]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.totalLength[2]))])])])};
-var __vue_staticRenderFns__$2 = [];
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-audio-mixer-timer"},[_c('span',{staticClass:"progress-time"},[_c('span',[_vm._v(_vm._s(_vm.progressFormatted[0]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.progressFormatted[1]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.progressFormatted[2]))])]),_vm._v(" "),_c('span',[_vm._v(" / ")]),_vm._v(" "),_c('span',{staticClass:"total"},[_c('span',[_vm._v(_vm._s(_vm.totalLength[0]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.totalLength[1]))]),_vm._v(":"),_c('span',[_vm._v(_vm._s(_vm.totalLength[2]))])]),_vm._v(" "),_vm._m(0)])};
+var __vue_staticRenderFns__$2 = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"start-delay"},[_c('input',{staticClass:"css-input",attrs:{"type":"number","id":"user-configured-delay","placeholder":"countdown"}})])}];
 
   /* style */
   var __vue_inject_styles__$2 = undefined;
@@ -10446,12 +10449,14 @@ var script$7 = {
         this.pausedAt = this.progress;
         EventBus.$emit('stop');
       } else {
-        if ( this.hooks && this.hooks.beforePlay ) {
+        var userDelay = document.getElementById('user-configured-delay').value;
+
+        if ( (this.hooks && this.hooks.beforePlay) || userDelay) {
             var countdownOverlay = document.getElementById('countdown-overlay');
             var countdownSeconds = document.getElementById('countdown-seconds');
-
             countdownOverlay.style.display = 'block';
-            var seconds = this.hooks.beforePlay.contdown;
+            var seconds = (this.hooks && this.hooks.beforePlay.contdown) ? parseInt(this.hooks.beforePlay.contdown) :
+             parseInt(userDelay);
 
             for(var i = 1; i<= seconds; i++) {
               countdownSeconds.innerText = ((seconds + 1) - i);

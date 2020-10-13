@@ -243,12 +243,14 @@ export default {
         this.pausedAt = this.progress;
         EventBus.$emit('stop');
       } else {
-        if ( this.hooks && this.hooks.beforePlay ) {
+        const userDelay = document.getElementById('user-configured-delay').value;
+
+        if ( (this.hooks && this.hooks.beforePlay) || userDelay) {
             const countdownOverlay = document.getElementById('countdown-overlay');
             const countdownSeconds = document.getElementById('countdown-seconds');
-
             countdownOverlay.style.display = 'block'
-            const seconds = this.hooks.beforePlay.contdown
+            const seconds = (this.hooks && this.hooks.beforePlay.contdown) ? parseInt(this.hooks.beforePlay.contdown) :
+             parseInt(userDelay);
 
             for(let i = 1; i<= seconds; i++) {
               countdownSeconds.innerText = ((seconds + 1) - i);

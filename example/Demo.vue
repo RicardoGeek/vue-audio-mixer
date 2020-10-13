@@ -68,11 +68,6 @@ export default {
             "pan":-49,
             "gain":0.85,
             "muted":false
-        },
-        "hooks": {
-          "beforePlay": {
-            "contdown": 7
-          }
         }
       }
     }  

@@ -59,6 +59,24 @@ $transition-time:0.1s;
   }
 } 
 
+.css-input {
+  padding: 5px;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: #CCCCCC;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-style: solid;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+  width: 60px;
+  top: 12px;
+  position: absolute;
+}
+.css-input:focus {
+  outline:none;
+}
+
 button{
   border:none;
   padding:0;

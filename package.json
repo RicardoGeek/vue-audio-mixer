@@ -1,8 +1,8 @@
 {
   "name": "custom-vue-audio-mixer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An audio mixer component for vue.js",
-  "author": "Julian Cole <julian@juliancole.co.uk>",
+  "author": "RicardoGeek <ricardo@ricardogeek.com>",
   "keywords": [
     "vue",
     "audio",
@@ -12,11 +12,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/julescole/vue-audio-mixer"
+    "url": "https://github.com/RicardoGeek/vue-audio-mixer"
   },
-  "homepage": "https://github.com/julescole/vue-audio-mixer",
+  "homepage": "https://github.com/RicardoGeek/vue-audio-mixer",
   "bugs": {
-    "url": "https://github.com/julescole/vue-audio-mixer/issues"
+    "url": "https://github.com/RicardoGeek/vue-audio-mixer/issues"
   },
   "license": "MIT",
   "main": "dist/vue-audio-mixer.umd.js",
@@ -56,7 +56,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@rollup/plugin-image": "^2.0.5",
     "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-url": "^5.0.1",
     "cross-env": "^5.2.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.14.1",

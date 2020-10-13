@@ -8,6 +8,9 @@
     <span class="total">
       <span>{{totalLength[0]}}</span>:<span>{{totalLength[1]}}</span>:<span>{{totalLength[2]}}</span>
     </span>
+    <span class="start-delay">
+      <input type="number" id="user-configured-delay" class="css-input" placeholder="countdown" />
+    </span>
   </div>
 
 </template>
