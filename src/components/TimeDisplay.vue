@@ -10,7 +10,7 @@
     </span>
     <table class='countdown-control'>
         <tr>
-          <td>Countdown:</td>
+          <td>Count-In:</td>
           <td>
             <div class="select">
               <select id="user-configured-delay" class="slct">
